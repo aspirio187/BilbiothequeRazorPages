@@ -9,3 +9,11 @@ Pour que l'application se lance sur la machine et que tout fonctionne comme pré
 * Microsoft SQL Server
 
 Et si possible SSMS (SQL Server Management Studio), ça facilitera le travail !
+
+### Configuration Initiales
+
+Une fois l'application pull, il faudra d'abord faire quelques configurations pour que ça fonctionne.
+
+Tout est expliqué et détaillé au lien suivant
+
+1. <b>[Configuration avant le lancement](../../wiki/Configuration-avant-lancement)</b>
