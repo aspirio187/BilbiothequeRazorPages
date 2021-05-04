@@ -111,9 +111,15 @@ namespace Bibliotheque.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("Utilisateur crée avec succès.");
 
-                    // Supprimer la ligne suivante après la création d'un admin
+                    /*************************************************************/
+                    /* Pour créer un compte Administrateur, Il faut décommenter  */
+                    /* ligne 122 et commenter la ligne 123. Une fois que le      */
+                    /* compte admin est crée, et qu'on ne veut maintenant plus   */
+                    /* que des clients, on refait l'inverse : commenter la ligne */
+                    /* 122 et décommenter la ligne 123                           */
+                    /*************************************************************/
+
                     //var roleResult = await _userManager.AddToRoleAsync(user, Roles.ADMIN_ROLE);
-                    // Décommenter la ligne suivante après la création d'un admin
                     var roleResult = await _userManager.AddToRoleAsync(user, Roles.CLIENT_ROLE);
                     if (roleResult.Succeeded)
                     {
