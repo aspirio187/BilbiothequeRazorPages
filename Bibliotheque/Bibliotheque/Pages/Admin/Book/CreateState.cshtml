@@ -1,0 +1,36 @@
+﻿@page
+@model Bibliotheque.Pages.Admin.Book.CreateStateModel
+@{
+}
+
+<h1>Créer une copie</h1>
+
+<h4>Copie</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BookCopy.BookId" />
+            <div class="form-group">
+                <select asp-items="Model.States" asp-for="BookCopy.State" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookCopy.Quantity" class="control-label"></label>
+                <input asp-for="BookCopy.Quantity" class="form-control" />
+                <span asp-validation-for="BookCopy.Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Ajouter" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

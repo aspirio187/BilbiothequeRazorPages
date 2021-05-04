@@ -1,0 +1,27 @@
+﻿@page
+@model Bibliotheque.Pages.Admin.Book.IndexModel
+@{
+}
+
+<h1>Administration des livres</h1>
+
+<div class="container">
+    <div class="row">
+        <a asp-page="Create" class="btn btn-primary">Ajouter un livre</a>
+    </div>
+    <div class="row mb-3 mt-3">
+        @foreach (var book in Model.Books)
+        {
+            <div class="col-3 ">
+                <div class="card">
+                    <img src="/api/Book/Preface/@book.Id" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@book.Title</h5>
+                        <p class="card-text">@book.Summary.Substring(0, 50)</p>
+                        <a asp-page="Edit" asp-route-id="@book.Id" class="btn btn-primary">Détails</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

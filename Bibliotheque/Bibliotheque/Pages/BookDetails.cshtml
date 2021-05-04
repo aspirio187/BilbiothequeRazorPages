@@ -1,0 +1,135 @@
+﻿@page
+@model Bibliotheque.Pages.BookDetailsModel
+
+@{
+    ViewData["Title"] = "BookDetails";
+}
+
+<h1>@Model.Book.Title</h1>
+
+<div>
+    <div class="row">
+        <input hidden asp-for="Book.Id" />
+        <div class="col-lg-4">
+            <label asp-for="Book.Preface" class="control-label"></label>
+            <img class="img-fluid border ml-1 mr-1" src="/api/book/preface/@Model.Book.Id" />
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label asp-for="Book.Title" class="control-label"></label>
+                <input asp-for="Book.Title" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.Author" class="control-label"></label>
+                <input asp-for="Book.Author" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.Summary" class="control-label"></label>
+                <textarea asp-for="Book.Summary" class="form-control" readonly></textarea>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.ReleaseDate" class="control-label"></label>
+                <input type="date" asp-for="Book.ReleaseDate" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.Editor" class="control-label"></label>
+                <input asp-for="Book.Editor" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.Format" class="control-label"></label>
+                <input asp-for="Book.Format" class="form-control" list="formats" readonly />
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label asp-for="Book.Pages" class="control-label"></label>
+                <input asp-for="Book.Pages" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.EAN" class="control-label"></label>
+                <input asp-for="Book.EAN" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.ISBN" class="control-label"></label>
+                <input asp-for="Book.ISBN" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.CategoryId" class="control-label"></label>
+                <input asp-for="Book.Category.Name" class="form-control" readonly />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h3>Genres :</h3>
+    </div>
+    <div class="row form-group">
+        @if (Model.Book.Genres.Count == 0)
+        {
+            <p>Aucun genre n'est associé à ce livre.</p>
+        }
+        else
+        {
+            <table class="table table-striped border">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            ID
+                        </th>
+                        <th scope="col">
+                            Nom
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var genre in Model.Book.Genres)
+                    {
+                        <tr>
+                            <td>@genre.Id</td>
+                            <td>@genre.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+    <div class="row">
+        <h3>Copies :</h3>
+    </div>
+    <div class="row">
+        @if (Model.BookCopies.Count == 0)
+        {
+            <p>Aucune copie n'est associé à ce livre.</p>
+        }
+        else
+        {
+            <table class="table table-striped border">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            ID
+                        </th>
+                        <th scope="col">
+                            Etat
+                        </th>
+                        <th>
+                            Quantité
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var copy in Model.BookCopies)
+                    {
+                        <tr>
+                            <td>@copy.Id</td>
+                            <td>@copy.State</td>
+                            <td>@copy.Quantity</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+<div>
+    <a asp-page="./Index">Revenir à la liste</a>
+</div>

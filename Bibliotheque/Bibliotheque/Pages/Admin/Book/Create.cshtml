@@ -1,0 +1,118 @@
+﻿@page
+@model Bibliotheque.Pages.Admin.Book.CreateModel
+@{
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-lg-4">
+            <label asp-for="Book.Preface" class="control-label"></label>
+            <img class="img-fluid" src="~/images/noimg.png" />
+            <div class="col align-self-baseline">
+                <input type="file" runat="server" name="file" id="preface" class="form-control" />
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label asp-for="Book.Title" class="control-label"></label>
+                <input asp-for="Book.Title" class="form-control" />
+                <span asp-validation-for="Book.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.Author" class="control-label"></label>
+                <input asp-for="Book.Author" class="form-control" />
+                <span asp-validation-for="Book.Author" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.Summary" class="control-label"></label>
+                <textarea asp-for="Book.Summary" class="form-control"></textarea>
+                <span asp-validation-for="Book.Summary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.ReleaseDate" class="control-label"></label>
+                <input type="date" asp-for="Book.ReleaseDate" class="form-control" />
+                <span asp-validation-for="Book.ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.Editor" class="control-label"></label>
+                <input asp-for="Book.Editor" class="form-control" />
+                <span asp-validation-for="Book.Editor" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label asp-for="Book.Format" class="control-label"></label>
+                <input asp-for="Book.Format" class="form-control" list="formats" />
+                <span asp-validation-for="Book.Format" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.Pages" class="control-label"></label>
+                <input asp-for="Book.Pages" class="form-control" />
+                <span asp-validation-for="Book.Pages" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.EAN" class="control-label"></label>
+                <input asp-for="Book.EAN" class="form-control" />
+                <span asp-validation-for="Book.EAN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.ISBN" class="control-label"></label>
+                <input asp-for="Book.ISBN" class="form-control" />
+                <span asp-validation-for="Book.ISBN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Book.CategoryId" class="control-label"></label>
+                <div class="input-group mb-3">
+                    <select id="categoriesOptions" asp-for="Book.CategoryId" class="form-control"></select>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="showModal(null)"><i class="fas fa-edit"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div asp-validation-summary="All" class="text-danger"></div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Retour</a>
+</div>
+
+<div class="modal fade" role="dialog" id="categoryInput" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="categoryForm" autocomplete="off" novalidate="novalidate">
+                <div class="modal-header">
+                    <h4 class="modal-title">Categorie</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label >Nom</label>
+                        <input type="text" maxlength="50" class="form-control" id="categoryName" />
+                        <span class="text-danger field-validation-valid" id="categoryNameValidation"></span>
+                    </div>
+                    <input id="categoryId" hidden />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal();">Fermer</button> &nbsp;
+                    <button type="button" id="btnSubmitCategory" class="btn btn-success" onclick="submitCategoryForm();">Créer</button>
+                    <button type="button" id="btnDeleteCategory" class="btn btn-danger" onclick="deleteCategory();">Supprimer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/notify.min.js"></script>
+<script src="~/js/bookCategoryScript.js"></script>
