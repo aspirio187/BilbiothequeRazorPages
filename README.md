@@ -16,4 +16,12 @@ Une fois l'application pull, il faudra d'abord faire quelques configurations pou
 
 Tout est expliqué et détaillé au lien suivant
 
-1. <b>[Configuration avant le lancement](../../wiki/Configuration-avant-lancement)</b>
+* <b>[Configuration avant le lancement](../../wiki/Configuration-avant-lancement)</b>
+
+### Création des comptes Admin / Client
+
+Maintenant que l'application se lance, il faut créer au moins un compte admin et et des comptes clients.
+
+Tout est expliqué et détaillé au lien suivant
+
+* <b>[Compte Admin](../../Compte-Admin)</b>
