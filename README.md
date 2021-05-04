@@ -1,4 +1,4 @@
 # BilbiothequeRazorPages
 Projet de PDWEB
 
-[My awesome Wiki](../../Wiki)
+[My awesome Wiki](../../wiki)
