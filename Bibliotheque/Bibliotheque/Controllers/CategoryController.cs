@@ -2,6 +2,7 @@
 using Bibliotheque.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,13 +43,22 @@ namespace Bibliotheque.Controllers
 
         [HttpPost]
         [Route("AddCategory")]
-        public IActionResult AddCategory(Category model)
+        public async Task<IActionResult> AddCategory(Category model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Categories.Add(model);
+                    if (model.Id != 0)
+                    {
+                        var categoryFromRepo = await _context.Categories.FirstOrDefaultAsync(c => c.Id == model.Id);
+                        categoryFromRepo.Name = model.Name;
+                    }
+                    else
+                    {
+                        _context.Categories.Add(model);
+                    }
+
                     if (_context.SaveChanges() > 0)
                     {
                         return CreatedAtAction(nameof(GetCategory), new { id = model.Id }, model);
@@ -76,6 +86,11 @@ namespace Bibliotheque.Controllers
             {
                 return NotFound($"Il n'existe aucune catégorie avec l'ID : {id}");
             }
+            if (_context.Books.Any(b => b.CategoryId == id))
+            {
+                return BadRequest($"La catégorie sélectionnée est déjà utilisée par un autre livre !");
+            }
+
             _context.Categories.Remove(category);
             if (_context.SaveChanges() > 0)
             {

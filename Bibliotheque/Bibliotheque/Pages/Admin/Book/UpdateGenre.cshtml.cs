@@ -22,11 +22,15 @@ namespace Bibliotheque.Pages.Admin.Book
             _context = context;
         }
 
+        public string ReturnUrl { get; set; }
+
         [BindProperty]
         public Genre Genre { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id, string returnUrl = null)
         {
+            ReturnUrl = returnUrl;
+
             if (id == null)
             {
                 return NotFound();
@@ -43,7 +47,7 @@ namespace Bibliotheque.Pages.Admin.Book
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             if (!ModelState.IsValid)
             {

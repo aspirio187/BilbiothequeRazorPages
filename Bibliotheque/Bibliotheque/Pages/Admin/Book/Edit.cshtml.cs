@@ -172,7 +172,7 @@ namespace Bibliotheque.Pages.Admin.Book
             to.Format = from.Format;
             to.ISBN = from.ISBN;
             to.Pages = from.Pages;
-            if(from.Preface is not null || from.Preface.Length > 0)
+            if(from.Preface is not null && from.Preface.Length > 0)
             {
                 to.Preface = from.Preface;
             }

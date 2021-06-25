@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Bibliotheque.Data;
 using Bibliotheque.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Bibliotheque.Helpers;
 
 namespace Bibliotheque.Pages.Admin.Book
 {
@@ -21,8 +23,12 @@ namespace Bibliotheque.Pages.Admin.Book
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public string ReturnUrl { get; set; }
+
+        public IActionResult OnGet(string returnUrl = null)
         {
+            ReturnUrl = returnUrl;
+
             return Page();
         }
 
@@ -30,17 +36,33 @@ namespace Bibliotheque.Pages.Admin.Book
         public Genre Genre { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Genres.Add(Genre);
-            await _context.SaveChangesAsync();
+            Genre.Name = Genre.Name.FirstCharToUpper();
 
-            return RedirectToPage("./Index");
+            if(await _context.Genres.AnyAsync(g => g.Name.Equals(Genre.Name)))
+            {
+                ModelState.AddModelError(string.Empty, "Le genre existe déjà !");
+                return Page();
+            }
+
+            _context.Genres.Add(Genre);
+            
+            if(await _context.SaveChangesAsync() < 1)
+            {
+                ModelState.AddModelError(string.Empty, "Une erreur s'est produite lors de l'enregistrement !");
+            }
+
+            if(string.IsNullOrEmpty(returnUrl))
+            {
+                return RedirectToPage("./Index");
+            }
+            return LocalRedirect(returnUrl);
         }
     }
 }

@@ -24,12 +24,14 @@ namespace Bibliotheque.Areas.Identity.Pages.Account
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ApplicationDbContext _context;
         private readonly ILogger<RegisterModel> _logger;
 
         public RegisterModel(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<IdentityRole> roleManager,
+            ApplicationDbContext context,
             ILogger<RegisterModel> logger)
         {
             _userManager = userManager ??
@@ -38,6 +40,8 @@ namespace Bibliotheque.Areas.Identity.Pages.Account
                 throw new ArgumentNullException(nameof(signInManager));
             _roleManager = roleManager ??
                 throw new ArgumentNullException(nameof(roleManager));
+            _context = context ??
+                throw new ArgumentNullException(nameof(context));
             _logger = logger ??
                 throw new ArgumentNullException(nameof(logger));
         }
@@ -119,8 +123,20 @@ namespace Bibliotheque.Areas.Identity.Pages.Account
                     /* 122 et décommenter la ligne 123                           */
                     /*************************************************************/
 
-                    //var roleResult = await _userManager.AddToRoleAsync(user, Roles.ADMIN_ROLE);
-                    var roleResult = await _userManager.AddToRoleAsync(user, Roles.CLIENT_ROLE);
+                    bool adminUserExist = _context.UserRoles.Any(ur => ur.RoleId == _context.Roles.FirstOrDefault(r => r.Name.Equals(Roles.ADMIN_ROLE)).Id);
+                    IdentityResult roleResult;
+
+                    if (!adminUserExist)
+                    {
+                        roleResult = await _userManager.AddToRoleAsync(user, Roles.ADMIN_ROLE);
+                        _logger.LogInformation($"Utilisateur ajouté au role : {Roles.ADMIN_ROLE}");
+                    }
+                    else
+                    {
+                        roleResult = await _userManager.AddToRoleAsync(user, Roles.CLIENT_ROLE);
+                        _logger.LogInformation($"Utilisateur ajouté au role : {Roles.CLIENT_ROLE}");
+                    }
+
                     if (roleResult.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);

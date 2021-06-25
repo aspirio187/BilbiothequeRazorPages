@@ -1,8 +1,13 @@
 ﻿@page
 @model Bibliotheque.Pages.Admin.Book.EditModel
 @{
+    var routeUrl = Url.RouteUrl(ViewContext.RouteData.Values);
+    var qsPath = ViewContext.HttpContext.Request.QueryString.Value;
+    var returnUrl = $"{routeUrl}{qsPath}";
+
 }
 
+@using System.Web 
 
 <form method="post" enctype="multipart/form-data">
     <div class="row">
@@ -81,7 +86,7 @@
         <select asp-items="@Model.AvailableGenres" asp-for="SelectedGenreId" class="form-control"></select>
         <div class="input-group-append">
             <button type="submit" class="btn btn-outline-secondary" asp-page-handler="AddGenre">Ajouter</button>
-            <a asp-page="CreateGenre" class="btn btn-outline-secondary">Créer</a>
+            <a asp-page="CreateGenre" asp-route-returnUrl="@returnUrl" class="btn btn-outline-secondary">Créer</a>
             <button class="btn btn-outline-secondary" asp-page-handler="UpdateGenre">Modifier</button>
         </div>
     </div>
