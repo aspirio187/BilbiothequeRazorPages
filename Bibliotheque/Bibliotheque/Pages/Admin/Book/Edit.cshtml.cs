@@ -114,9 +114,9 @@ namespace Bibliotheque.Pages.Admin.Book
 
         public IActionResult OnPostUpdateGenre()
         {
-            if (SelectedGenreId == 0)
+            if (SelectedGenreId != 0)
             {
-                return RedirectToPage("Edit", new { id = Book.Id });
+                return RedirectToPage("UpdateGenre", new { id = SelectedGenreId });
             }
             return RedirectToThisPage();
         }

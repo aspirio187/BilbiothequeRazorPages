@@ -75,6 +75,20 @@ namespace Bibliotheque.Pages.Admin.Book
             return RedirectToPage("./Index");
         }
 
+        public async Task<IActionResult> OnPostDeleteGenre()
+        {
+            if (Genre.Id == 0) return Page();
+            bool genreIsUsed = await _context.Books.AnyAsync(b => b.Genres.Any(g => g.Id == Genre.Id));
+            if(genreIsUsed == true)
+            {
+                ModelState.AddModelError("", "Le genre est déjà utilisé par un autre livre !");
+                return Page();
+            }
+            _context.Genres.Remove(Genre);
+            _context.SaveChanges();
+            return LocalRedirect("/");
+        }
+
         private bool GenreExists(int id)
         {
             return _context.Genres.Any(e => e.Id == id);
