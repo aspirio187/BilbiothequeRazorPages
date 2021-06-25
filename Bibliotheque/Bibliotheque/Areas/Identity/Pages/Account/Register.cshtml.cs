@@ -115,26 +115,18 @@ namespace Bibliotheque.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("Utilisateur crée avec succès.");
 
-                    /*************************************************************/
-                    /* Pour créer un compte Administrateur, Il faut décommenter  */
-                    /* ligne 122 et commenter la ligne 123. Une fois que le      */
-                    /* compte admin est crée, et qu'on ne veut maintenant plus   */
-                    /* que des clients, on refait l'inverse : commenter la ligne */
-                    /* 122 et décommenter la ligne 123                           */
-                    /*************************************************************/
-
                     bool adminUserExist = _context.UserRoles.Any(ur => ur.RoleId == _context.Roles.FirstOrDefault(r => r.Name.Equals(Roles.ADMIN_ROLE)).Id);
                     IdentityResult roleResult;
 
-                    if (!adminUserExist)
-                    {
-                        roleResult = await _userManager.AddToRoleAsync(user, Roles.ADMIN_ROLE);
-                        _logger.LogInformation($"Utilisateur ajouté au role : {Roles.ADMIN_ROLE}");
-                    }
-                    else
+                    if (adminUserExist)
                     {
                         roleResult = await _userManager.AddToRoleAsync(user, Roles.CLIENT_ROLE);
                         _logger.LogInformation($"Utilisateur ajouté au role : {Roles.CLIENT_ROLE}");
+                    }
+                    else
+                    {
+                        roleResult = await _userManager.AddToRoleAsync(user, Roles.ADMIN_ROLE);
+                        _logger.LogInformation($"Utilisateur ajouté au role : {Roles.ADMIN_ROLE}");
                     }
 
                     if (roleResult.Succeeded)
